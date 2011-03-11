@@ -10,10 +10,10 @@ import android.util.AttributeSet;
 
 public class SmartImageView extends ImageView {
     private static final int LOADING_THREADS = 4;
-
     private static ExecutorService threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
 
     private SmartImageTask currentTask;
+
 
     public SmartImageView(Context context) {
         super(context);
@@ -95,5 +95,10 @@ public class SmartImageView extends ImageView {
 
         // Run the task in a threadpool
         threadPool.execute(currentTask);
+    }
+
+    private static void cancelAllTasks() {
+        threadPool.shutdownNow();
+        threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
     }
 }
