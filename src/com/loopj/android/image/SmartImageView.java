@@ -3,6 +3,11 @@ package com.loopj.android.image;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+import android.util.AttributeSet;
+
 public class SmartImageView extends ImageView {
     private static final int LOADING_THREADS = 4;
     private static ExecutorService threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
@@ -22,11 +27,11 @@ public class SmartImageView extends ImageView {
     }
 
     public void setImageUrl(String url) {
-        setImage(new UrlImage(url));
+        setImage(new WebImage(getContext(), url));
     }
 
     public void setImageContact(int contactId) {
-        setImage(new ContactImage(contactId));
+        setImage(new ContactImage(getContext(), contactId));
     }
 
     public void setImage(final SmartImage image) {
@@ -50,13 +55,7 @@ public class SmartImageView extends ImageView {
         }
 
         // Set up the new task
-        currentTask = new SmartImageTask() {
-            @Override
-            public void run() {
-                complete(image.getBitmap());
-            }
-        };
-
+        currentTask = new SmartImageTask(image);
         currentTask.setOnCompleteHandler(new SmartImageTask.OnCompleteHandler() {
             @Override
             public void onComplete(Bitmap bitmap) {

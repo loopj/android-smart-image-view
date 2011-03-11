@@ -4,17 +4,23 @@ import java.io.InputStream;
 
 import android.content.ContentUris;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.provider.ContactsContract;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 
 public class ContactImage implements SmartImage {
-    private static final int CONNECTION_TIMEOUT = 1000;
+    private static ContentResolver contentResolver;
 
-    private String url;
+    private Context context;
+    private int contactId;
 
-    public ContactImage(int contactId) {
+    public ContactImage(Context context, int contactId) {
+        if(contentResolver == null) {
+            contentResolver = context.getContentResolver();
+        }
+
         this.contactId = contactId;
     }
 
@@ -22,9 +28,8 @@ public class ContactImage implements SmartImage {
         Bitmap bitmap = null;
 
         try {
-            ContentResolver resolver = imageView.getContext().getContentResolver();
             Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
-            InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri);
+            InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver, uri);
             if(input != null) {
                 bitmap = BitmapFactory.decodeStream(input);
             }
