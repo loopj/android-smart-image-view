@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 
 public class SmartImageView extends ImageView {
     private static final int LOADING_THREADS = 4;
+
     private static ExecutorService threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
 
     private SmartImageTask currentTask;
@@ -26,25 +27,47 @@ public class SmartImageView extends ImageView {
         super(context, attrs, defStyle);
     }
 
+
+    // Helpers to set image by URL
     public void setImageUrl(String url) {
         setImage(new WebImage(url));
     }
 
-    public void setImageContact(int contactId) {
+    public void setImageUrl(String url, final Integer fallbackResource) {
+        setImage(new WebImage(url), fallbackResource);
+    }
+
+    public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource) {
+        setImage(new WebImage(url), fallbackResource, loadingResource);
+    }
+
+
+    // Helpers to set image by contact address book id
+    public void setImageContact(long contactId) {
         setImage(new ContactImage(contactId));
     }
 
+    public void setImageContact(long contactId, final Integer fallbackResource) {
+        setImage(new ContactImage(contactId), fallbackResource);
+    }
+
+    public void setImageContact(long contactId, final Integer fallbackResource, final Integer loadingResource) {
+        setImage(new ContactImage(contactId), fallbackResource, fallbackResource);
+    }
+
+
+    // Set image using SmartImage object
     public void setImage(final SmartImage image) {
         setImage(image, null, null);
     }
 
     public void setImage(final SmartImage image, final Integer fallbackResource) {
-        setImage(image, fallbackResource, null);
+        setImage(image, fallbackResource, fallbackResource);
     }
 
     public void setImage(final SmartImage image, final Integer fallbackResource, final Integer loadingResource) {
         // Set a loading resource
-        if(loadingResource != null && getDrawable() != null){
+        if(loadingResource != null && getDrawable() == null){
             setImageResource(loadingResource);
         }
 

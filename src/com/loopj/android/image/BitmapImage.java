@@ -1,5 +1,6 @@
 package com.loopj.android.image;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 public class BitmapImage implements SmartImage {
@@ -9,7 +10,7 @@ public class BitmapImage implements SmartImage {
         this.bitmap = bitmap;
     }
 
-    public Bitmap getBitmap() {
+    public Bitmap getBitmap(Context context) {
         return bitmap;
     }
 }

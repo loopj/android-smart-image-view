@@ -11,10 +11,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 
 public class ContactImage implements SmartImage {
-    private Context context;
-    private int contactId;
+    private long contactId;
 
-    public ContactImage(int contactId) {
+    public ContactImage(long contactId) {
         this.contactId = contactId;
     }
 
