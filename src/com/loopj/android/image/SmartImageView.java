@@ -27,11 +27,11 @@ public class SmartImageView extends ImageView {
     }
 
     public void setImageUrl(String url) {
-        setImage(new WebImage(getContext(), url));
+        setImage(new WebImage(url));
     }
 
     public void setImageContact(int contactId) {
-        setImage(new ContactImage(getContext(), contactId));
+        setImage(new ContactImage(contactId));
     }
 
     public void setImage(final SmartImage image) {
@@ -55,7 +55,7 @@ public class SmartImageView extends ImageView {
         }
 
         // Set up the new task
-        currentTask = new SmartImageTask(image);
+        currentTask = new SmartImageTask(getContext(), image);
         currentTask.setOnCompleteHandler(new SmartImageTask.OnCompleteHandler() {
             @Override
             public void onComplete(Bitmap bitmap) {

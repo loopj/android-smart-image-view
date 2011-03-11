@@ -11,21 +11,16 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 
 public class ContactImage implements SmartImage {
-    private static ContentResolver contentResolver;
-
     private Context context;
     private int contactId;
 
-    public ContactImage(Context context, int contactId) {
-        if(contentResolver == null) {
-            contentResolver = context.getContentResolver();
-        }
-
+    public ContactImage(int contactId) {
         this.contactId = contactId;
     }
 
-    public Bitmap getBitmap() {
+    public Bitmap getBitmap(Context context) {
         Bitmap bitmap = null;
+        ContentResolver contentResolver = context.getContentResolver();
 
         try {
             Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);

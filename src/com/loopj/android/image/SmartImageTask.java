@@ -1,5 +1,6 @@
 package com.loopj.android.image;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +11,7 @@ public class SmartImageTask implements Runnable {
     private boolean cancelled = false;
     private OnCompleteHandler onCompleteHandler;
     private SmartImage image;
+    private Context context;
 
     public static class OnCompleteHandler extends Handler {
         @Override
@@ -21,14 +23,16 @@ public class SmartImageTask implements Runnable {
         public void onComplete(Bitmap bitmap){};
     }
 
-    public SmartImageTask(SmartImage image) {
+    public SmartImageTask(Context context, SmartImage image) {
         this.image = image;
+        this.context = context;
     }
 
     @Override
     public void run() {
         if(image != null) {
-            complete(image.getBitmap());
+            complete(image.getBitmap(context));
+            context = null;
         }
     }
 

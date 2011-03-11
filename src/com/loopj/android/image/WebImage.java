@@ -16,15 +16,29 @@ public class WebImage implements SmartImage {
 
     private String url;
 
-    public WebImage(Context context, String url) {
+    public WebImage(String url) {
+        this.url = url;
+    }
+
+    public Bitmap getBitmap(Context context) {
+        // Don't leak context
         if(webImageCache == null) {
             webImageCache = new WebImageCache(context);
         }
 
-        this.url = url;
+        // Try getting bitmap from cache first
+        Bitmap bitmap = webImageCache.get(url);
+        if(bitmap == null) {
+            bitmap = getBitmapFromUrl(url);
+            if(bitmap != null){
+                webImageCache.put(url, bitmap);
+            }
+        }
+
+        return bitmap;
     }
 
-    public Bitmap getBitmap() {
+    private Bitmap getBitmapFromUrl(String url) {
         Bitmap bitmap = null;
 
         try {
