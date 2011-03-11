@@ -52,4 +52,10 @@ public class WebImage implements SmartImage {
 
         return bitmap;
     }
+
+    public static void removeFromCache(String url) {
+        if(webImageCache != null) {
+            webImageCache.remove(url);
+        }
+    }
 }
