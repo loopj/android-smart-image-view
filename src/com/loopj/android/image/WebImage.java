@@ -9,8 +9,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 public class WebImage implements SmartImage {
-    private static final int CONNECT_TIMEOUT = 1000;
-    private static final int READ_TIMEOUT = 1000;
+    private static final int CONNECT_TIMEOUT = 5000;
+    private static final int READ_TIMEOUT = 10000;
 
     private static WebImageCache webImageCache;
 
@@ -27,11 +27,14 @@ public class WebImage implements SmartImage {
         }
 
         // Try getting bitmap from cache first
-        Bitmap bitmap = webImageCache.get(url);
-        if(bitmap == null) {
-            bitmap = getBitmapFromUrl(url);
-            if(bitmap != null){
-                webImageCache.put(url, bitmap);
+        Bitmap bitmap = null;
+        if(url != null) {
+            bitmap = webImageCache.get(url);
+            if(bitmap == null) {
+                bitmap = getBitmapFromUrl(url);
+                if(bitmap != null){
+                    webImageCache.put(url, bitmap);
+                }
             }
         }
 

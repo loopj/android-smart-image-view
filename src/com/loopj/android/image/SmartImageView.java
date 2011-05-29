@@ -67,7 +67,7 @@ public class SmartImageView extends ImageView {
 
     public void setImage(final SmartImage image, final Integer fallbackResource, final Integer loadingResource) {
         // Set a loading resource
-        if(loadingResource != null && getDrawable() == null){
+        if(loadingResource != null){
             setImageResource(loadingResource);
         }
 
@@ -97,7 +97,7 @@ public class SmartImageView extends ImageView {
         threadPool.execute(currentTask);
     }
 
-    private static void cancelAllTasks() {
+    public static void cancelAllTasks() {
         threadPool.shutdownNow();
         threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
     }
