@@ -4,3 +4,4 @@ build.num
 *.jar
 _includes
 _layouts
+gh-pages
