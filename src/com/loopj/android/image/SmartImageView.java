@@ -1,12 +1,12 @@
 package com.loopj.android.image;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
-
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.widget.ImageView;
 import android.util.AttributeSet;
+import android.widget.ImageView;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SmartImageView extends ImageView {
     private static final int LOADING_THREADS = 4;
@@ -33,12 +33,24 @@ public class SmartImageView extends ImageView {
         setImage(new WebImage(url));
     }
 
+    public void setImageUrl(String url, SmartImageTask.OnCompleteListener completeListener) {
+        setImage(new WebImage(url), completeListener);
+    }
+
     public void setImageUrl(String url, final Integer fallbackResource) {
         setImage(new WebImage(url), fallbackResource);
     }
 
+    public void setImageUrl(String url, final Integer fallbackResource, SmartImageTask.OnCompleteListener completeListener) {
+        setImage(new WebImage(url), fallbackResource, completeListener);
+    }
+
     public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource) {
         setImage(new WebImage(url), fallbackResource, loadingResource);
+    }
+
+    public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource, SmartImageTask.OnCompleteListener completeListener) {
+        setImage(new WebImage(url), fallbackResource, loadingResource, completeListener);
     }
 
 
@@ -58,14 +70,26 @@ public class SmartImageView extends ImageView {
 
     // Set image using SmartImage object
     public void setImage(final SmartImage image) {
-        setImage(image, null, null);
+        setImage(image, null, null, null);
+    }
+
+    public void setImage(final SmartImage image, final SmartImageTask.OnCompleteListener completeListener) {
+        setImage(image, null, null, completeListener);
     }
 
     public void setImage(final SmartImage image, final Integer fallbackResource) {
-        setImage(image, fallbackResource, fallbackResource);
+        setImage(image, fallbackResource, fallbackResource, null);
+    }
+
+    public void setImage(final SmartImage image, final Integer fallbackResource, SmartImageTask.OnCompleteListener completeListener) {
+        setImage(image, fallbackResource, fallbackResource, completeListener);
     }
 
     public void setImage(final SmartImage image, final Integer fallbackResource, final Integer loadingResource) {
+        setImage(image, fallbackResource, loadingResource, null);
+    }
+
+    public void setImage(final SmartImage image, final Integer fallbackResource, final Integer loadingResource, final SmartImageTask.OnCompleteListener completeListener) {
         // Set a loading resource
         if(loadingResource != null){
             setImageResource(loadingResource);
@@ -89,6 +113,10 @@ public class SmartImageView extends ImageView {
                     if(fallbackResource != null) {
                         setImageResource(fallbackResource);
                     }
+                }
+
+                if(completeListener != null){
+                    completeListener.onComplete();
                 }
             }
         });
