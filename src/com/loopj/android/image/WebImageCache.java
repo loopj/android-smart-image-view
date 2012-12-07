@@ -73,7 +73,7 @@ public class WebImageCache {
         memoryCache.remove(getCacheKey(url));
 
         // Remove from file cache
-        File f = new File(diskCachePath, url);
+        File f = new File(diskCachePath, getCacheKey(url));
         if(f.exists() && f.isFile()) {
             f.delete();
         }
