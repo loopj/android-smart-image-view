@@ -51,7 +51,7 @@ public class WebImage implements SmartImage {
             conn.setReadTimeout(READ_TIMEOUT);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 8;
-	    options.purgeable = true;
+	    options.inPurgeable = true;
             Rect rect = new Rect(-1,-1,-1,-1);
             bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent(), rect, options);
         } catch(Exception e) {
