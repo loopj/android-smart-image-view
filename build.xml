@@ -2,10 +2,11 @@
     <!-- Project properties -->
     <property name="version.num" value="1.0.0" />
     <property name="project" value="android-smart-image-view" />
+    <property environment="env"/>
 
     <!-- Standard jar stuff -->
     <property name="jarfile" value="${project}-${version.num}.jar" />
-    <property name="lib.dir" value="/usr/local/android_sdk/platforms/android-7/" />
+    <property name="lib.dir" value="${env.ANDROID_HOME}/platforms/android-7/" />
     <property name="build.dir" value="./build"/>
     <property name="classes.dir"  value="${build.dir}/classes"/>
     <buildnumber file="build.num" />
