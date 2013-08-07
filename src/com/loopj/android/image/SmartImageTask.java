@@ -16,8 +16,12 @@ public class SmartImageTask implements Runnable {
     public static class OnCompleteHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            Bitmap bitmap = (Bitmap)msg.obj;
-            onComplete(bitmap);
+            try{
+                Bitmap bitmap = (Bitmap)msg.obj;
+                onComplete(bitmap);
+            }catch (OutOfMemoryError e){
+                e.printStackTrace();
+            }
         }
 
         public void onComplete(Bitmap bitmap){};
