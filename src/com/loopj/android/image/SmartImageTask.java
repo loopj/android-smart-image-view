@@ -13,14 +13,14 @@ public class SmartImageTask implements Runnable {
     private SmartImage image;
     private Context context;
 
-    public static class OnCompleteHandler extends Handler {
+    public static abstract class OnCompleteHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             Bitmap bitmap = (Bitmap)msg.obj;
             onComplete(bitmap);
         }
 
-        public void onComplete(Bitmap bitmap){};
+        public abstract void onComplete(Bitmap bitmap);
     }
 
     public abstract static class OnCompleteListener {
