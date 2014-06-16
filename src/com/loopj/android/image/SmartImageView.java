@@ -116,7 +116,7 @@ public class SmartImageView extends ImageView {
                 }
 
                 if(completeListener != null){
-                    completeListener.onComplete();
+                    completeListener.onComplete(bitmap);
                 }
             }
         });
