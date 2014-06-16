@@ -25,6 +25,14 @@ public class SmartImageTask implements Runnable {
 
     public abstract static class OnCompleteListener {
         public abstract void onComplete();
+        /***
+        *  Convient method to get Bitmap after image is loaded.
+        *  Override this method to get handle of bitmap
+        *  Added overloaded implementation to make it backward compatible with previous versions
+        */
+        public void onComplete(Bitmap bitmap){
+            onComplete();
+        }
     }
 
     public SmartImageTask(Context context, SmartImage image) {
