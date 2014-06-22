@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -48,7 +49,17 @@ public class WebImage implements SmartImage {
             URLConnection conn = new URL(url).openConnection();
             conn.setConnectTimeout(CONNECT_TIMEOUT);
             conn.setReadTimeout(READ_TIMEOUT);
-            bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
+            
+            ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
+            int inSample = 1;
+            if(memInfo.lowMemory){
+                inSample = 12;
+            }
+            
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = inSample;
+            
+            bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent(), null, options);
         } catch(Exception e) {
             e.printStackTrace();
         }
