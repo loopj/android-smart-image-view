@@ -15,9 +15,15 @@ public class WebImage implements SmartImage {
     private static WebImageCache webImageCache;
 
     private String url;
+    private URLConnection conn;
 
     public WebImage(String url) {
         this.url = url;
+    }
+    
+    public WebImage(URLConnection urlConnection) {
+        this.url = urlConnection.getURL().toString();
+        this.conn = urlConnection;
     }
 
     public Bitmap getBitmap(Context context) {
@@ -45,9 +51,11 @@ public class WebImage implements SmartImage {
         Bitmap bitmap = null;
 
         try {
-            URLConnection conn = new URL(url).openConnection();
-            conn.setConnectTimeout(CONNECT_TIMEOUT);
-            conn.setReadTimeout(READ_TIMEOUT);
+        	if (conn == null){
+        		conn = new URL(url).openConnection();
+                conn.setConnectTimeout(CONNECT_TIMEOUT);
+                conn.setReadTimeout(READ_TIMEOUT);	
+        	}
             bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
         } catch(Exception e) {
             e.printStackTrace();
