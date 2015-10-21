@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import java.net.URLConnection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,6 +32,10 @@ public class SmartImageView extends ImageView {
     // Helpers to set image by URL
     public void setImageUrl(String url) {
         setImage(new WebImage(url));
+    }
+    
+    public void setImageUrl(URLConnection urlConnection) {
+        setImage(new WebImage(urlConnection));
     }
 
     public void setImageUrl(String url, SmartImageTask.OnCompleteListener completeListener) {
